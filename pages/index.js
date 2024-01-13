@@ -1,16 +1,29 @@
+import React, { useState } from 'react';
+import getJoke from '../api/jokeData';
+
 function Home() {
+  const [joke, setJoke] = useState({ setup: '', punchline: '' });
+  const [punchline, setPunchline] = useState('');
+
+  function getJokes() {
+    getJoke().then((newJoke) => {
+      setJoke(newJoke);
+      setPunchline('');
+    });
+  }
+
+  function delivery() {
+    setPunchline('Punchline');
+  }
+
   return (
-    <div
-      className="text-center d-flex flex-column justify-content-center align-content-center"
-      style={{
-        height: '90vh',
-        padding: '30px',
-        maxWidth: '400px',
-        margin: '0 auto',
-      }}
-    >
-      <h1>Welcome Home!</h1>
-    </div>
+    <>
+      <h1>{joke.setup}</h1>
+      <button type="button" onClick={punchline ? getJokes : delivery}>
+        {punchline ? 'get a joke' : 'get delivery'}
+      </button>
+      {punchline && <h1 id="punchline">{joke.delivery}</h1>}
+    </>
   );
 }
 
